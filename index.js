@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const jwt = require("jsonwebtoken");
+const axios = require("axios");
 
 // web server and stuff
 const express = require("express");
@@ -21,7 +22,7 @@ app.get("/auth/cb", (req, res) => {
     quickauth(token, process.env.QUICKAUTH_CALLBACK)
         .then(id => {
             // sign dat session token
-            const token = jwt.sign({user: id}, process.env.SESSION_SECRET);
+            const token = jwt.sign({user: id}, process.env.SESSION_SECRET, {expiresIn: "1 day"});
 
             // set yummy cookie
             res.cookie("token", token);
@@ -29,3 +30,22 @@ app.get("/auth/cb", (req, res) => {
         })
         .catch(() => res.status(401).send("dat not real token"));
 });
+
+// who am i
+app.get("/user", async (req, res) => {
+    const user = await auth(req.cookies.token);
+    if (!user) return res.status(401).send("idk who u r");
+    res.json(user);
+});
+
+// who r any of us, rly
+const getUser = async id => (await axios.get(`https://horizon.alles.cc/users/${encodeURIComponent(id)}`)).data;
+
+// deep, ikr
+const auth = async token => {
+    try {
+        return await getUser((await jwt.verify(token, process.env.SESSION_SECRET)).user);
+    } catch (err) {
+        return null;
+    }
+};
