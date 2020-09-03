@@ -9,11 +9,6 @@ body {
     margin: 0;
 }
 
-a {
-    color: var(--primary);
-    text-decoration: none;
-}
-
 .titleScreen {
     display: flex;
     flex-flow: column;
@@ -23,6 +18,36 @@ a {
 
 main {
     margin: 0 auto;
+    text-align: center;
+}
+
+h1 {
+    font-weight: 800;
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-weight: 600;
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+span {
+    color: var(--primary);
+}
+
+a, button {
+    background: var(--primary);
+    color: white;
+    font-family: Inter;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    margin: 0 auto;
+    width: 100px;
 }
 
 .signedIn, .signedOut {
