@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 // web server and stuff
 const express = require("express");
 const app = express();
+app.use("/", express.static(`${__dirname}/client`));
 app.use(require("cookie-parser")());
 app.use((_err, _req, res, _next) => res.status(500).send("oh fuck it broke"));
 app.listen(8080, () => console.log("server do be listening"));
