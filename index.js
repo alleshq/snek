@@ -158,7 +158,6 @@ app.post("/direction/:d", auth, (req, res) => {
         console.log(s);
         console.log({targetX, targetY});
         if (s.x === targetX && s.y === targetY) {
-            console.log("saved!");
             return res.status(400).send("u no allow 2 go in urself");
         }
     }
