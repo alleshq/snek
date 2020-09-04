@@ -1,3 +1,5 @@
+const gridSize = 1000;
+
 module.exports = (player, snakes, food) => {
     const grid = blank();
     const {x, y} = snakes[player].segments[0];
@@ -21,6 +23,13 @@ module.exports = (player, snakes, food) => {
             f.y <= y + 10
         ) grid[x - f.x + 10][y - f.y + 10] = "#23539b";
     });
+
+    // u no go here
+    for (let tileX = x - 10; tileX < x + 10; tileX++) {
+        for (let tileY = y - 10; tileY < y + 10; tileY++) {
+            if (tileX < 0 || tileY < 0 || tileX > gridSize || tileY > gridSize) grid[x - tileX + 10][y - tileY + 10] = "#ff0000";
+        }
+    }
 
     return grid;
 };
