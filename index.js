@@ -82,12 +82,14 @@ setInterval(() => {
     // move sneks
     Object.keys(players).forEach(id => {
         const p = players[id];
-        const {x: oldX, y: oldY} = p.segments[0];
-        p.segments.unshift({
-            x: p.direction === "left" ? oldX + 1 : p.direction === "right" ? oldX - 1 : oldX,
-            y: p.direction === "up" ? oldY + 1 : p.direction === "down" ? oldY - 1 : oldY
-        });
-        p.segments.pop();
+        if (ticks % (Math.floor(p.segments.length / 10) + 1) === 0) {
+            const {x: oldX, y: oldY} = p.segments[0];
+            p.segments.unshift({
+                x: p.direction === "left" ? oldX + 1 : p.direction === "right" ? oldX - 1 : oldX,
+                y: p.direction === "up" ? oldY + 1 : p.direction === "down" ? oldY - 1 : oldY
+            });
+            p.segments.pop();
+        }
     });
 }, 1000 / tickSpeed);
 
