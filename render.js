@@ -12,6 +12,16 @@ module.exports = (player, snakes, food) => {
         ) grid[x - segment.x + 10][y - segment.y + 10] = snakes[id].color;
     }));
 
+    // where da food
+    food.forEach(f => {
+        if (
+            f.x >= x - 10 &&
+            f.x <= x + 10 &&
+            f.y >= y - 10 &&
+            f.y <= y + 10
+        ) grid[x - f.x + 10][y - f.y + 10] = "#23539b";
+    });
+
     return grid;
 };
 
