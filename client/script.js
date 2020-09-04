@@ -20,7 +20,7 @@ document.querySelector("button").onclick = () => {
 };
 
 const gameSize = Math.min(innerWidth, innerHeight);
-const tileSize = gameSize / 20;
+const tileSize = gameSize / 21;
 const canvas = document.querySelector("canvas");
 canvas.width = gameSize;
 canvas.height = gameSize;
@@ -29,8 +29,8 @@ c.fillStyle = "black";
 
 const render = tiles => {
     c.clearRect(0, 0, gameSize, gameSize);
-    for (let x = 0; x < 20; x++) {
-        for (let y = 0; y < 20; y++) {
+    for (let x = 0; x < 21; x++) {
+        for (let y = 0; y < 21; y++) {
             c.fillStyle = tiles[x][y];
             c.fillRect(tileSize * x, tileSize * y, tileSize, tileSize);
         }
