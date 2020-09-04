@@ -71,20 +71,18 @@ setInterval(() => {
     ticks++;
 
     // make more yum yums
-    if (Math.floor(Math.random() * 20) === 0) {
-        food.shift();
+    if (food.length < foodCount && Math.floor(Math.random() * 10) === 0)
         food.push({
             x: randomPosition(),
             y: randomPosition()
         });
-    }
 
     // sneks
     Object.keys(players).forEach(id => {
         const p = players[id];
 
         // mv teh sneks
-        if (ticks % (Math.floor(p.segments.length / 10) + 1) === 0) {
+        if (ticks % 2 === 0) {
             const {x: oldX, y: oldY} = p.segments[0];
             p.segments.unshift({
                 x: p.direction === "left" ? oldX + 1 : p.direction === "right" ? oldX - 1 : oldX,
@@ -97,6 +95,14 @@ setInterval(() => {
 
         // snek go outside
         if (x < 0 || y < 0 || x > gridSize || y > gridSize) return delete players[id];
+
+        // snek eat yum yum
+        food.forEach((f, i) => {
+            if (x === f.x && y === f.y) {
+                p.segments.unshift({x, y});
+                food.splice(i, 1);
+            }
+        });
     });
 }, 1000 / tickSpeed);
 
