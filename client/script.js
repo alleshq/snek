@@ -70,6 +70,7 @@ const render = data => {
     c.fillStyle = "#000000";
     c.fillText(`x: ${data.x}`, 50, 50);
     c.fillText(`y: ${data.y}`, 50, 75);
+    c.fillText(`length: ${data.length}`, 50, 100);
 };
 
 // ask server what iz happening
