@@ -85,3 +85,19 @@ setInterval(() => {
         }).catch(() => {});
     }
 }, 100);
+
+// i wanna go here now
+document.body.onkeydown = e => {
+    const directions = [
+        "ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft",
+        "w", "d", "s", "a",
+        "k", "l", "j", "h"
+    ];
+    const d = directions.indexOf(e.key) % 4;
+    if (playing && d >= 0) fetch(`/direction/${["up", "right", "down", "left"][d]}`, {
+        method: "POST",
+        headers: {
+            Authorization: token
+        }
+    }).catch(() => {});
+}

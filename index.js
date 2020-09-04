@@ -81,12 +81,13 @@ setInterval(() => {
 
     // move sneks
     Object.keys(players).forEach(id => {
-        const {x: oldX, y: oldY} = players[id].segments[0];
-        players[id].segments.unshift({
-            x: oldX,
-            y: oldY + 1
+        const p = players[id];
+        const {x: oldX, y: oldY} = p.segments[0];
+        p.segments.unshift({
+            x: p.direction === "left" ? oldX + 1 : p.direction === "right" ? oldX - 1 : oldX,
+            y: p.direction === "up" ? oldY + 1 : p.direction === "down" ? oldY - 1 : oldY
         });
-        players[id].segments.pop();
+        p.segments.pop();
     });
 }, 1000 / tickSpeed);
 
@@ -116,6 +117,14 @@ app.get("/game", auth, (req, res) => {
         y: players[req.user.id].segments[0].y,
         length: players[req.user.id].segments.length
     })
+});
+
+// i wanna go here now
+app.post("/direction/:d", auth, (req, res) => {
+    if (!players[req.user.id]) return res.status(400).send("but u no playing");
+    if (!["up", "down", "left", "right"].includes(req.params.d)) return res.status(400).send("that thing bad");
+    players[req.user.id].direction = req.params.d;
+    res.send("yay it werk");
 });
 
 // nothing here
