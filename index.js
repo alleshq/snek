@@ -84,7 +84,7 @@ setInterval(() => {
         const p = players[id];
 
         // mv teh sneks
-        if (ticks % (Math.floor(p.segments.length / 10) + 2) === 0) {
+        if (ticks % (Math.floor(p.segments.length / 10) + 1) === 0) {
             const {x: oldX, y: oldY} = p.segments[0];
             p.segments.unshift({
                 x: p.direction === "left" ? oldX + 1 : p.direction === "right" ? oldX - 1 : oldX,
