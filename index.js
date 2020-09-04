@@ -78,6 +78,16 @@ setInterval(() => {
             y: randomPosition()
         });
     }
+
+    // move sneks
+    Object.keys(players).forEach(id => {
+        const {x: oldX, y: oldY} = players[id].segments[0];
+        players[id].segments.unshift({
+            x: oldX,
+            y: oldY + 1
+        });
+        players[id].segments.pop();
+    });
 }, 1000 / tickSpeed);
 
 // lemme play
