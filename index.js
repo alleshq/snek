@@ -79,9 +79,11 @@ setInterval(() => {
         });
     }
 
-    // move sneks
+    // sneks
     Object.keys(players).forEach(id => {
         const p = players[id];
+
+        // mv teh sneks
         if (ticks % (Math.floor(p.segments.length / 10) + 2) === 0) {
             const {x: oldX, y: oldY} = p.segments[0];
             p.segments.unshift({
@@ -90,6 +92,11 @@ setInterval(() => {
             });
             p.segments.pop();
         }
+
+        const {x, y} = p.segments[0];
+
+        // snek go outside
+        if (x < 0 || y < 0 || x > gridSize || y > gridSize) return delete players[id];
     });
 }, 1000 / tickSpeed);
 
