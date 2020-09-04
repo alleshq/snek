@@ -1,7 +1,7 @@
 require("dotenv").config();
 const tickSpeed = 10;
 const gridSize = 1000;
-const foodCount = 50;
+const foodCount = 2000;
 
 let ticks = 0;
 const players = {};
