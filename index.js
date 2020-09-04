@@ -145,9 +145,25 @@ app.get("/game", auth, (req, res) => {
 
 // i wanna go here now
 app.post("/direction/:d", auth, (req, res) => {
-    if (!players[req.user.id]) return res.status(400).send("but u no playing");
-    if (!["up", "down", "left", "right"].includes(req.params.d)) return res.status(400).send("that thing bad");
-    players[req.user.id].direction = req.params.d;
+    const player = players[req.user.id];
+    const {d} = req.params;
+    if (!player) return res.status(400).send("but u no playing");
+    if (!["up", "down", "left", "right"].includes(d)) return res.status(400).send("that thing bad");
+    
+    const {x, y} = player.segments[0];
+    const targetX = d === "left" ? x + 1 : d === "right" ? x - 1 : x;
+    const targetY = d === "up" ? y + 1 : d === "down" ? y - 1 : y;
+    for (let i = 0; i < player.segments.length; i++) {
+        const s = player.segments[i];
+        console.log(s);
+        console.log({targetX, targetY});
+        if (s.x === targetX && s.y === targetY) {
+            console.log("saved!");
+            return res.status(400).send("u no allow 2 go in urself");
+        }
+    }
+
+    player.direction = d;
     res.send("yay it werk");
 });
 
