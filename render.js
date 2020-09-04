@@ -1,4 +1,5 @@
 const gridSize = 1000;
+const edgeColors = ["#ffffff", "#ff0000", "#d94330", "#f56f22", "#48ff2b"];
 
 module.exports = (player, snakes, food) => {
     const grid = blank();
@@ -25,9 +26,12 @@ module.exports = (player, snakes, food) => {
     });
 
     // u no go here
-    for (let tileX = x - 10; tileX < x + 10; tileX++) {
-        for (let tileY = y - 10; tileY < y + 10; tileY++) {
-            if (tileX < 0 || tileY < 0 || tileX > gridSize || tileY > gridSize) grid[x - tileX + 10][y - tileY + 10] = "#ff0000";
+    for (let tileX = 0; tileX < 21; tileX++) {
+        for (let tileY = 0; tileY < 21; tileY++) {
+            const tx = x + tileX - 10;
+            const ty = y + tileY - 10;
+            if (tx < 0 || ty < 0 || tx > gridSize || ty > gridSize)
+                grid[20 - tileX][ 20 - tileY] = edgeColors[Math.floor(Math.random() * edgeColors.length)];
         }
     }
 
