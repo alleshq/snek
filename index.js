@@ -14,8 +14,6 @@ const render = require("./render");
 // web server and stuff
 const express = require("express");
 const app = express();
-const http = require("http").createServer(app);
-const io = require("socket.io")(http);
 app.use("/", express.static(`${__dirname}/client`));
 app.use(require("cookie-parser")());
 app.use((_err, _req, res, _next) => res.status(500).send("oh fuck it broke"));
@@ -81,6 +79,6 @@ setInterval(() => {
         food.push({
             x: randomPosition(),
             y: randomPosition()
-        })
+        });
     }
 }, 1000 / tickSpeed);
