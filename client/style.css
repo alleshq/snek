@@ -9,7 +9,7 @@ body {
     margin: 0;
 }
 
-.titleScreen {
+.container {
     display: flex;
     flex-flow: column;
     justify-content: center;
@@ -51,5 +51,10 @@ a, button {
 }
 
 .signedIn, .signedOut {
+    display: none;
+}
+
+canvas {
+    margin: 0 auto;
     display: none;
 }
