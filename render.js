@@ -31,7 +31,7 @@ module.exports = (player, snakes, food) => {
             const tx = x + tileX - 10;
             const ty = y + tileY - 10;
             if (tx < 0 || ty < 0 || tx > gridSize || ty > gridSize)
-                grid[20 - tileX][ 20 - tileY] = edgeColors[Math.floor(Math.random() * edgeColors.length)];
+                grid[20 - tileX][20 - tileY] = edgeColors[Math.floor(Math.random() * edgeColors.length)];
         }
     }
 

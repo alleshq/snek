@@ -96,10 +96,18 @@ setInterval(() => {
         // snek go outside
         if (x < 0 || y < 0 || x > gridSize || y > gridSize) return delete players[id];
 
+        // snek hit snek
+        Object.keys(players).forEach(id2 => players[id2].segments.forEach((segment, i) => {
+            if (i !== 0 && segment.x === x && segment.y === y) return delete players[id];
+        }));
+
         // snek eat yum yum
         food.forEach((f, i) => {
             if (x === f.x && y === f.y) {
-                p.segments.unshift({x, y});
+                p.segments.push({
+                    x: p.direction === "left" ? x - 1 : p.direction === "right" ? x + 1 : x,
+                    y: p.direction === "up" ? x - 1 : p.direction === "down" ? y + 1 : y
+                });
                 food.splice(i, 1);
             }
         });
