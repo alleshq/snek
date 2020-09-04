@@ -1,4 +1,11 @@
 require("dotenv").config();
+const tickSpeed = 10;
+const gridSize = 1000;
+const foodCount = 50;
+
+let ticks = 0;
+const players = {};
+const food = [];
 
 const jwt = require("jsonwebtoken");
 const axios = require("axios");
@@ -7,6 +14,8 @@ const render = require("./render");
 // web server and stuff
 const express = require("express");
 const app = express();
+const http = require("http").createServer(app);
+const io = require("socket.io")(http);
 app.use("/", express.static(`${__dirname}/client`));
 app.use(require("cookie-parser")());
 app.use((_err, _req, res, _next) => res.status(500).send("oh fuck it broke"));
@@ -50,3 +59,28 @@ const auth = async token => {
         return null;
     }
 };
+
+// go somewhere
+const randomPosition = () => Math.floor(Math.random() * gridSize);
+
+// make yum yums
+for (let i = 0; i < foodCount; i++) {
+    food.push({
+        x: randomPosition(),
+        y: randomPosition()
+    });
+}
+
+// game does stuff
+setInterval(() => {
+    ticks++;
+
+    // make more yum yums
+    if (Math.floor(Math.random() * 20) === 0) {
+        food.shift();
+        food.push({
+            x: randomPosition(),
+            y: randomPosition()
+        })
+    }
+}, 1000 / tickSpeed);
