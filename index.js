@@ -19,7 +19,17 @@ app.use(require("cookie-parser")());
 app.use((_err, _req, res, _next) => res.status(500).send("oh fuck it broke"));
 app.listen(8080, () => console.log("server do be listening"));
 
-// who tf r u
+// knock knock who der
+const auth = async (req, res, next) => {
+    try {
+        req.user = await getUser((await jwt.verify(req.headers.authorization, process.env.SESSION_SECRET)).user);
+    } catch (err) {
+        return res.status(401).send("idk who u r");
+    }
+    next();
+};
+
+// who r u
 const quickauth = require("@alleshq/quickauth");
 app.get("/auth", (_req, res) => res.redirect(quickauth.url(process.env.QUICKAUTH_CALLBACK)));
 app.get("/auth/cb", (req, res) => {
@@ -40,23 +50,10 @@ app.get("/auth/cb", (req, res) => {
 });
 
 // who am i
-app.get("/user", async (req, res) => {
-    const user = await auth(req.cookies.token);
-    if (!user) return res.status(401).send("idk who u r");
-    res.json(user);
-});
+app.get("/user", auth, async (req, res) => res.json(req.user));
 
 // who r any of us, rly
 const getUser = async id => (await axios.get(`https://horizon.alles.cc/users/${encodeURIComponent(id)}`)).data;
-
-// deep, ikr
-const auth = async token => {
-    try {
-        return await getUser((await jwt.verify(token, process.env.SESSION_SECRET)).user);
-    } catch (err) {
-        return null;
-    }
-};
 
 // go somewhere
 const randomPosition = () => Math.floor(Math.random() * gridSize);
@@ -82,3 +79,31 @@ setInterval(() => {
         });
     }
 }, 1000 / tickSpeed);
+
+// lemme play
+app.post("/join", auth, (req, res) => {
+    const x = randomPosition();
+    const y = randomPosition();
+    players[req.user.id] = {
+        color: "#000000",
+        direction: "up",
+        segments: [
+            {x, y},
+            {x, y: y - 1},
+            {x, y: y - 2}
+        ]
+    };
+    res.send("ok u can play :)");
+});
+
+// what r u ppl doing
+app.get("/game", auth, (req, res) => {
+    if (!players[req.user.id]) return res.status(400).send("but u no playing");
+    res.json({
+        user: req.user,
+        tiles: render(req.user.id, players, food)
+    })
+});
+
+// nothing here
+app.use((_req, res) => res.status(404).send("nothing here"));
