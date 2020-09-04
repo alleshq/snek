@@ -101,7 +101,9 @@ app.get("/game", auth, (req, res) => {
     if (!players[req.user.id]) return res.status(400).send("but u no playing");
     res.json({
         user: req.user,
-        tiles: render(req.user.id, players, food)
+        tiles: render(req.user.id, players, food),
+        x: players[req.user.id].segments[0].x,
+        y: players[req.user.id].segments[0].y
     })
 });
 

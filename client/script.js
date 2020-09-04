@@ -52,17 +52,24 @@ const canvas = document.querySelector("canvas");
 canvas.width = gameSize;
 canvas.height = gameSize;
 const c = canvas.getContext("2d");
-c.fillStyle = "black";
+c.font = "20px Inter";
 
-// let there be squares
-const render = ({tiles}) => {
+const render = data => {
+    // bye bye old stuff
     c.clearRect(0, 0, gameSize, gameSize);
+
+    // let there b squares
     for (let x = 0; x < 21; x++) {
         for (let y = 0; y < 21; y++) {
-            c.fillStyle = tiles[x][y];
+            c.fillStyle = data.tiles[x][y];
             c.fillRect(tileSize * x, tileSize * y, tileSize, tileSize);
         }
     }
+
+    // where am i
+    c.fillStyle = "#000000";
+    c.fillText(`x: ${data.x}`, 50, 50);
+    c.fillText(`y: ${data.y}`, 50, 75);
 };
 
 // ask server what iz happening
