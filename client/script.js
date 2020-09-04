@@ -17,9 +17,7 @@ fetch("/user", {
         user = await res.json();
         document.querySelector(".signedIn span").innerText = user.nickname;
         document.querySelector(".signedIn").style.display = "block";
-    } else {
-        document.querySelector(".signedOut").style.display = "block";
-    }
+    } else throw new Error();
 }).catch(() => {
     document.querySelector(".signedOut").style.display = "block"
 });
@@ -83,7 +81,12 @@ setInterval(() => {
             }
         }).then(async res => {
             if (res.status === 200) render(await res.json());
-        }).catch(() => {});
+            else throw new Error();
+        }).catch(() => {
+            playing = false;
+            setScreen();
+            c.clearRect(0, 0, gameSize, gameSize);
+        });
     }
 }, 100);
 
