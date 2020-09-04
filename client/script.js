@@ -71,6 +71,7 @@ const render = data => {
     c.fillText(`x: ${data.x}`, 50, 50);
     c.fillText(`y: ${data.y}`, 50, 75);
     c.fillText(`length: ${data.length}`, 50, 100);
+    c.fillText(`players: ${data.players}`, 50, 125);
 };
 
 // ask server what iz happening

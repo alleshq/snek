@@ -130,8 +130,9 @@ app.get("/game", auth, (req, res) => {
         tiles: render(req.user.id, players, food),
         x: players[req.user.id].segments[0].x,
         y: players[req.user.id].segments[0].y,
-        length: players[req.user.id].segments.length
-    })
+        length: players[req.user.id].segments.length,
+        players: Object.keys(players).length
+    });
 });
 
 // i wanna go here now
